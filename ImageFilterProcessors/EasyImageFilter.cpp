@@ -194,8 +194,8 @@ void ys::weightedSaturation(
 		return;
 	}
 	if( src.size() != weight.size() ){
-		Size &src_size = src.size();
-		Size &weight_size = weight.size();
+		const Size &src_size = src.size();
+		const Size &weight_size = weight.size();
 		cerr<< "not equal src size and weight size" <<endl
 			<< "src : " << src_size.width << "x" << src_size.height <<endl
 			<< "weight : " << weight_size.width << "x" << weight_size.height <<endl;
@@ -237,8 +237,8 @@ void ys::weightedGaussian(
 		return;
 	}
 	if( src.size() != weight.size() ){
-		Size &src_size = src.size();
-		Size &weight_size = weight.size();
+		const Size &src_size = src.size();
+		const Size &weight_size = weight.size();
 		cerr<< "not equal src size and weight size" <<endl
 			<< "src : " << src_size.width << "x" << src_size.height <<endl
 			<< "weight : " << weight_size.width << "x" << weight_size.height <<endl;

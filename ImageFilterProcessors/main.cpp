@@ -7,8 +7,13 @@
 #include <map>
 #include <vector>
 
+#ifdef _WIN32
 #include "win_lib.h"
 #include "opencv_windows_lib.h"
+#else
+#include "qapplication.h"
+#include "qt_lib.h"
+#endif
 
 #include "EasyImageFilter.h"
 #include "NoiseReduction.h"
@@ -17,8 +22,8 @@ using namespace std;
 using namespace cv;
 
 /* TODO:
-* 2012/12/31 double‚ÅŒvZ‚µ‚È‚­‚Ä‚à‚¢‚¢‚Æ‚±‚ë‚Íint‚É•ÏX
-* weight —p Mat ‚à’PˆÊ‚ğ10000‚Æ‚©‚Éİ’è‚µ‚Ä’l‚ğ•Û‚Å‚«‚é‚æ‚¤‚ÉŠg’£‚µ‚Ä‚à‚¢‚¢‚©‚à
+* 2012/12/31 doubleã§è¨ˆç®—ã—ãªãã¦ã‚‚ã„ã„ã¨ã“ã‚ã¯intã«å¤‰æ›´
+* weight ç”¨ Mat ã‚‚å˜ä½ã‚’10000ã¨ã‹ã«è¨­å®šã—ã¦å€¤ã‚’ä¿æŒã§ãã‚‹ã‚ˆã†ã«æ‹¡å¼µã—ã¦ã‚‚ã„ã„ã‹ã‚‚
 */
 
 struct UIDataContainer {
@@ -164,12 +169,14 @@ void showHelp(){
 }
 
 int main( int argc, char** argv )
-{
+{	
+	QApplication app(argc, argv);
 
 	string fname;
 	bool selected = fileSelectDialog( fname );
+	//bool selected = false;
 	if( !selected ){
-		cerr<< "ƒtƒ@ƒCƒ‹‚ª‘I‘ğ‚³‚ê‚Ü‚¹‚ñ‚Å‚µ‚½" <<endl;
+		cerr<< "not selected file" <<endl;
 		return -1;
 	}
 
@@ -305,24 +312,9 @@ int main( int argc, char** argv )
 			Mat bg_image;
 			if( !selected ){
 				cout<< "select color" <<endl;
-				COLORREF CustColors2[16];
-				CHOOSECOLOR cc;
-				cc.lStructSize = sizeof(cc);
-				cc.hwndOwner = NULL;
-				cc.hInstance = NULL;
-				cc.rgbResult = RGB(255,0,0);
-				cc.lpCustColors = CustColors2;
-				cc.Flags = CC_RGBINIT;
-				cc.lCustData = NULL;
-				cc.lpTemplateName = NULL;
 
-				//ƒJƒ‰[ƒ_ƒCƒAƒƒO•\¦
-				ChooseColor(&cc);
-
-				cv::Scalar color(
-					(cc.rgbResult>>16)&255,
-					(cc.rgbResult>>8)&255,
-					(cc.rgbResult&255));
+				cv::Scalar color;
+				colorPicker( color );
 
 				bg_image = ys::genColorImage( src_img, color );
 			}

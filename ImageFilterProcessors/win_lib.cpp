@@ -52,3 +52,25 @@ bool fileSelectDialog( std::string& fname ){
 	}
 
 }
+
+
+bool colorPicker( cv::Scalar& color)
+{
+		COLORREF CustColors2[16];
+		CHOOSECOLOR cc;
+		cc.lStructSize = sizeof(cc);
+		cc.hwndOwner = NULL;
+		cc.hInstance = NULL;
+		cc.rgbResult = RGB(255,0,0);
+		cc.lpCustColors = CustColors2;
+		cc.Flags = CC_RGBINIT;
+		cc.lCustData = NULL;
+		cc.lpTemplateName = NULL;
+
+		//カラーダイアログ表示
+		ChooseColor(&cc);
+
+		color[0] = (cc.rgbResult>>16)&255;
+		color[1] = (cc.rgbResult>>8)&255;
+		color[2] = (cc.rgbResult&255;
+}
